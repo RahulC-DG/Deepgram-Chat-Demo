@@ -21,3 +21,11 @@ LLM_MODEL=gpt-4-turbo-preview
 python chat.py
 ```
 
+# Track FAISS index files
+git lfs track "*.index"
+git lfs track "*.faiss"
+git lfs track "data/vector_db/**/*"
+
+# Make sure .gitattributes is tracked
+git add .gitattributes
+
