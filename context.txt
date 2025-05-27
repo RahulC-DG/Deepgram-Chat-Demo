@@ -1,0 +1,52 @@
+PROJECT OVERVIEW: Deepgram Voice-Enabled RAG Chatbot
+
+This project integrates a voice-based agent with a RAG-powered chatbot to create an interactive voice interface for querying Deepgram's APIs and SDKs.
+
+PART 1: RAG-POWERED CHATBOT (Deepgram Chat)
+------------------------------------------
+The conversational question-answering system helps users query information about Deepgram's APIs and SDKs using natural language. Key components:
+
+- OpenAI's LLM (gpt-4-turbo-preview) via LangChain
+- FAISS vector stores for document retrieval
+- Semantic caching through custom LRUCache
+- Document-backed responses with source metadata
+- CLI interface for text-based interaction
+
+Features:
+- Semantic caching for similar queries
+- Cosine similarity for cache matching
+- Custom prompt template for answer generation
+- Chat history logging
+- Source tracking for answers
+
+PART 2: VOICE AGENT INTERFACE
+----------------------------
+Real-time voice assistant implementation using Flask and Flask-SocketIO:
+
+Key Components:
+- WebSocket connection with Deepgram's agent.websocket.v("1")
+- Audio input/output handling
+- LLM-based response generation
+- Event streaming
+- Real-time voice interaction
+
+Technical Implementation:
+- Flask server with SocketIO
+- DeepgramClient for voice processing
+- Audio configuration (16kHz, linear16 encoding)
+- Event handlers for various WebSocket events
+- Error handling and connection management
+
+Integration Goals:
+1. Combine voice interface with RAG system
+2. Enable spoken questions and voice responses
+3. Maintain semantic understanding and document-backed answers
+4. Provide both voice and text output
+5. Create seamless real-time conversation experience
+
+The integration will allow users to:
+- Ask questions verbally
+- Receive spoken responses
+- Access the same semantic understanding as the text interface
+- Get document-backed, accurate answers
+- Interact naturally through voice while maintaining the power of the RAG system 

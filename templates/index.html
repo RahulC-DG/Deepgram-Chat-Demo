@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deepgram Voice Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #chat-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: auto;
+        }
+        .assistant-message {
+            background-color: #f5f5f5;
+            margin-right: auto;
+        }
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            margin-right: auto;
+        }
+        .sources {
+            font-size: 0.8em;
+            margin-top: 5px;
+            color: #666;
+        }
+        .sources ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        .sources a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        .sources a:hover {
+            text-decoration: underline;
+        }
+        #controls {
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        #status.error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <h1>Deepgram Voice Assistant</h1>
+    <div id="status">Connecting...</div>
+    <div id="chat-container"></div>
+    <div id="controls">
+        <button id="startButton">Start Recording</button>
+        <button id="stopButton" disabled>Stop Recording</button>
+    </div>
+
+    <script>
+        const socket = io();
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        // DOM Elements
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const chatContainer = document.getElementById('chat-container');
+        const statusDiv = document.getElementById('status');
+
+        // Socket event handlers
+        socket.on('connect', () => {
+            statusDiv.textContent = 'Connected';
+        });
+
+        socket.on('disconnect', () => {
+            statusDiv.textContent = 'Disconnected';
+        });
+
+        socket.on('conversation', (data) => {
+            const response = data.data;
+            
+            // Add user message
+            addMessage(response.voice_data.text, 'user');
+            
+            // Add assistant message with sources if available
+            if (response.source === 'hybrid') {
+                addMessage(response.text, 'assistant', response.sources);
+                
+                // Log metadata for debugging
+                console.log('Response metadata:', response.metadata);
+            } else {
+                // Voice-only response
+                addMessage(response.text, 'assistant');
+                console.log('Voice-only response:', response.metadata);
+            }
+            
+            // Update status
+            statusDiv.textContent = 'Ready';
+        });
+
+        socket.on('error', (data) => {
+            console.error('Error:', data);
+            statusDiv.textContent = `Error: ${data.data.message}`;
+            statusDiv.className = 'error';
+            
+            // Add error message to chat
+            addMessage(`Error: ${data.data.message}`, 'error');
+        });
+
+        socket.on('welcome', (data) => {
+            console.log('Welcome event received:', data);
+            statusDiv.textContent = 'Ready to start';
+        });
+
+        // Helper function to add messages to chat
+        function addMessage(text, type, sources = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = 'message-text';
+            textDiv.textContent = text;
+            messageDiv.appendChild(textDiv);
+            
+            if (sources && sources.length > 0) {
+                const sourcesDiv = document.createElement('div');
+                sourcesDiv.className = 'sources';
+                sourcesDiv.innerHTML = '<strong>Sources:</strong><ul>' +
+                    sources.map(source => {
+                        if (source.type === 'documentation') {
+                            return `<li><a href="${source.url}" target="_blank">${source.title}</a></li>`;
+                        } else {
+                            return `<li>SDK Code: ${source.file}</li>`;
+                        }
+                    }).join('') + '</ul>';
+                messageDiv.appendChild(sourcesDiv);
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Audio recording functions
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                        // Convert audio data to array buffer and send
+                        event.data.arrayBuffer().then(buffer => {
+                            socket.emit('audio_data', new Uint8Array(buffer));
+                        });
+                    }
+                };
+
+                mediaRecorder.start(100); // Collect data every 100ms
+                isRecording = true;
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                statusDiv.textContent = 'Recording...';
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                statusDiv.textContent = 'Error accessing microphone';
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                isRecording = false;
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                statusDiv.textContent = 'Connected';
+            }
+        }
+
+        // Event listeners
+        startButton.addEventListener('click', startRecording);
+        stopButton.addEventListener('click', stopRecording);
+    </script>
+</body>
+</html> 
