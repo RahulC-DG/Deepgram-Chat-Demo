@@ -8,9 +8,9 @@ If you have found a bug or if you have a feature request, please report them at 
 Check out our KNOWN ISSUES before reporting.
 
 # Demo Features
-Capture streaming audio using Deepgram Nova-3 Streaming Speech to Text.
-Natural Language responses using an OpenAI LLM.
-Speech to Text conversion using Deepgram Aura-2 Text to Speech.
+Capture streaming audio using Deepgram Nova-3 Streaming Speech to Text. </br>
+Natural Language responses using an OpenAI LLM.</br>
+Speech to Text conversion using Deepgram Aura-2 Text to Speech.</br>
 
 # What is Deepgram?
 Deepgram is a foundational AI company providing speech-to-text and language understanding capabilities to make data readable and actionable by human or machines.
