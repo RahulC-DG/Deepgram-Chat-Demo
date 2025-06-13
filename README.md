@@ -1,4 +1,4 @@
-# DeepgramChat
+# Deepgram Chat Voice Assistant Demo
 
 A RAG-based chat application for Deepgram documentation and SDKs, featuring both text-based and voice-enabled interfaces.
 
