@@ -5,7 +5,6 @@ This is a RAG-based chat application for Deepgram documentation and SDKs, featur
 # Video Demo
 [![Watch the video](https://cdn.loom.com/sessions/thumbnails/49994c6aa3394f269c7eb2a63f29d037-with-play.gif)](https://www.loom.com/embed/49994c6aa3394f269c7eb2a63f29d037?sid=ab5a6324-990e-46b7-8043-5fcca4833a9b)
 
-
 # Issue Reporting
 If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker.
 
