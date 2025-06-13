@@ -106,10 +106,10 @@ The vector stores contain:
 # Getting Help
 We love to hear from you so if you have questions, comments or find a bug in the project, let us know! You can either:
 - Open an issue in this repository
-- [Join the Deepgram Github Discussions Community]([url](https://github.com/orgs/deepgram/discussions))
-- [Join the Deepgram Discord Community]([url](https://discord.com/invite/xWRaCDBtW4))
+- [Join the Deepgram Github Discussions Community](https://github.com/orgs/deepgram/discussions)
+- [Join the Deepgram Discord Community](https://discord.com/invite/xWRaCDBtW4)
 
 # Author
-[Deepgram]([url](https://deepgram.com/))
+[Deepgram](https://deepgram.com/)
 
 
