@@ -16,7 +16,7 @@ Speech to Text conversion using Deepgram Aura-2 Text to Speech.</br>
 Deepgram is a foundational AI company providing speech-to-text and language understanding capabilities to make data readable and actionable by human or machines.
 
 # Sign-Up for Deepgram
-Want to start building using this project? [Sign-up now for Deepgram and create an API key]([https://console.deepgram.com/signup?jump=keys]).
+Want to start building using this project? [Sign-up now for Deepgram and create an API key](https://console.deepgram.com/signup?jump=keys).
 
 ## Quickstart
 
