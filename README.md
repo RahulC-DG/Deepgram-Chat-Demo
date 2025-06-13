@@ -3,7 +3,8 @@
 This is a RAG-based chat application for Deepgram documentation and SDKs, featuring both text-based and voice-enabled interfaces. The purpose of this demo is the show the power of voice with Deepgram and demo integrations with RAG applications. Examples where you could see this type of application is when onboarding new employees and helping investors understand your product and codebase through a conversation. 
 
 # Video Demo
-[![Watch the video](https://cdn.loom.com/sessions/thumbnails/49994c6aa3394f269c7eb2a63f29d037-with-play.gif)](https://www.loom.com/embed/49994c6aa3394f269c7eb2a63f29d037?sid=ab5a6324-990e-46b7-8043-5fcca4833a9b)
+[Watch the video on Loom](https://www.loom.com/embed/49994c6aa3394f269c7eb2a63f29d037?sid=ab5a6324-990e-46b7-8043-5fcca4833a9b)
+
 
 # Issue Reporting
 If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker.
